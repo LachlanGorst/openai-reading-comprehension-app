@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization of OpenAI client (only when route is called, not at build time)
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 interface Answer {
   questionNumber: number;
@@ -37,6 +39,7 @@ export async function POST(request: NextRequest) {
     // Grade each answer individually
     const gradingPromises = answers.map(async (answerItem: Answer) => {
       try {
+        const openai = getOpenAIClient();
         const completion = await openai.chat.completions.create({
           model: "gpt-4o-mini",
           messages: [
