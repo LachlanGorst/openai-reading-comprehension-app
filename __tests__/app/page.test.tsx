@@ -3,12 +3,8 @@ import Home from '@/app/page';
 
 // Mock the components to avoid API calls in tests
 jest.mock('@/components/PassageDisplay', () => {
-  return function MockPassageDisplay({ onPassageSubmit }: any) {
-    return (
-      <div data-testid="passage-display">
-        <button onClick={() => onPassageSubmit('Test passage')}>Submit</button>
-      </div>
-    );
+  return function MockPassageDisplay() {
+    return <div data-testid="passage-display">Passage Display</div>;
   };
 });
 
@@ -25,13 +21,9 @@ jest.mock('@/components/ResultsPage', () => {
 });
 
 describe('Home Page', () => {
-  it('renders the main heading', () => {
+  it('renders the main heading and initial passage display', () => {
     render(<Home />);
     expect(screen.getByText('Reading Comprehension Test')).toBeInTheDocument();
-  });
-
-  it('initially shows the passage display', () => {
-    render(<Home />);
     expect(screen.getByTestId('passage-display')).toBeInTheDocument();
   });
 });

@@ -2,6 +2,8 @@
 
 An AI-powered reading comprehension testing application for school students built with Next.js 14+, TypeScript, Tailwind CSS, and OpenAI API.
 
+Developed in conjunction with - Cursor (Auto Agent Router)
+
 ## Features
 
 - **AI-Generated Questions**: Automatically generates 10 comprehension questions based on any reading passage
@@ -30,22 +32,26 @@ An AI-powered reading comprehension testing application for school students buil
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <your-repo-url>
 cd reading-comprehension-app
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Add your OpenAI API key to `.env`:
+
 ```
 OPENAI_API_KEY=your_openai_api_key_here
 ```
@@ -53,6 +59,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 ### Development
 
 Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -62,11 +69,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Testing
 
 Run tests:
+
 ```bash
 npm test
 ```
 
 Run tests in watch mode:
+
 ```bash
 npm run test:watch
 ```
@@ -74,11 +83,13 @@ npm run test:watch
 ### Building for Production
 
 Build the application:
+
 ```bash
 npm run build
 ```
 
 Start the production server:
+
 ```bash
 npm start
 ```
