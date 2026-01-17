@@ -38,11 +38,11 @@ export async function POST(request: NextRequest) {
         {
           role: "system",
           content:
-            'You are an expert educator creating engaging reading comprehension questions for students. Generate exactly 3 questions with different types: 1 easy literal question, 1 medium inference question, 1 challenging analysis question. For each question, provide the question text, type, ideal answer, and 2-3 key points that show understanding. Return JSON: {"questions": [{"id": 1, "type": "easy"|"medium"|"challenge", "question": "...", "idealAnswer": "...", "keyPoints": ["point1", "point2"]}, ...]}',
+            'You are an expert educator creating engaging reading comprehension questions for students. Generate exactly 3 questions with different cognitive levels: 1 literal/recall question (easy), 1 inference question (medium), 1 analysis/critical thinking question (challenge). Each question should test genuine comprehension and require students to engage with the text, not guess. For each question, provide: question text, difficulty type, ideal answer (2-3 sentences), 2-3 key points that show understanding, and a hint that guides thinking without giving the answer. Return JSON: {"questions": [{"id": 1, "type": "easy"|"medium"|"challenge", "question": "...", "idealAnswer": "...", "keyPoints": ["point1", "point2"], "hint": "think about..."}, ...]}',
         },
         {
           role: "user",
-          content: `Generate 3 diverse reading comprehension questions for this passage:\n\n${passage}\n\nMake them engaging and appropriate for students.`,
+          content: `Generate 3 diverse reading comprehension questions for this passage:\n\n${passage}\n\nMake them test different thinking levels: literal understanding, inference, and critical analysis.`,
         },
       ],
       temperature: 0.7,
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     try {
       const parsed = JSON.parse(responseContent);
       const questions = parsed.questions || [];
-      
+
       // Ensure we have exactly 3 questions
       if (questions.length !== 3) {
         throw new Error(`Expected 3 questions, got ${questions.length}`);
@@ -67,10 +67,13 @@ export async function POST(request: NextRequest) {
       // Validate structure and add IDs if missing
       const validatedQuestions = questions.map((q: any, index: number) => ({
         id: q.id || index + 1,
-        type: q.type || (index === 0 ? 'easy' : index === 1 ? 'medium' : 'challenge'),
-        question: q.question || '',
-        idealAnswer: q.idealAnswer || '',
+        type:
+          q.type ||
+          (index === 0 ? "easy" : index === 1 ? "medium" : "challenge"),
+        question: q.question || "",
+        idealAnswer: q.idealAnswer || "",
         keyPoints: Array.isArray(q.keyPoints) ? q.keyPoints : [],
+        hint: q.hint || "",
       }));
 
       return NextResponse.json({ questions: validatedQuestions });

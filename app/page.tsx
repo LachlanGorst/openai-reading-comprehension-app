@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import QuestionInterface from "@/components/QuestionInterface";
 import ResultsPage from "@/components/ResultsPage";
+import PassageReader from "@/components/PassageReader";
 
 // Main application state types
 type TestState = "loading" | "questions" | "results";
@@ -153,44 +154,42 @@ export default function Home() {
 
   // Render appropriate component based on test state
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
+    <main className="min-h-screen bg-[#0a0e27] p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          📚 Reading Comprehension Adventure
+        <h1 className="text-5xl font-bold text-center mb-8 text-white">
+          Reading Comprehension
         </h1>
 
         {testState === "loading" && (
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-700">
+          <div
+            className="bg-[#1a1f3a] rounded-lg shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto border border-purple-500/20"
+            style={{
+              boxShadow: "0 0 30px rgba(210, 0, 255, 0.1)",
+            }}
+          >
+            <div className="animate-spin rounded-full h-12 w-12 border-2 border-purple-500 border-t-orange-400 mx-auto mb-4"></div>
+            <p className="text-lg text-purple-200">
               Loading your passage and generating questions...
             </p>
           </div>
         )}
 
         {testState === "questions" && questions.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Passage Display - Sticky on desktop */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4 max-h-[calc(100vh-100px)] overflow-y-auto">
-                <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                  📖 Passage
-                </h2>
-                <h3 className="text-lg font-medium text-blue-600 mb-4">
-                  {passageTitle}
-                </h3>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm">
-                  {passage}
-                </p>
-              </div>
-            </div>
+          <div>
+            {/* Full-width passage at the top */}
+            <PassageReader title={passageTitle} content={passage} />
 
-            {/* Question Interface */}
-            <div className="lg:col-span-2">
+            {/* Question Interface below */}
+            <div
+              className="bg-[#1a1f3a] rounded-lg shadow-lg border border-purple-500/20"
+              style={{
+                boxShadow: "0 0 30px rgba(210, 0, 255, 0.1)",
+              }}
+            >
               {isGrading && (
-                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                  <p className="text-lg text-gray-700">
+                <div className="p-6 md:p-8 text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-2 border-purple-500 border-t-orange-400 mx-auto mb-4"></div>
+                  <p className="text-lg text-purple-200">
                     Grading your answers...
                   </p>
                 </div>
@@ -207,6 +206,11 @@ export default function Home() {
                   questionType={
                     typeof questions[currentQuestionIndex] === "object"
                       ? questions[currentQuestionIndex].type
+                      : undefined
+                  }
+                  hint={
+                    typeof questions[currentQuestionIndex] === "object"
+                      ? questions[currentQuestionIndex].hint
                       : undefined
                   }
                   onAnswerSubmit={handleAnswerSubmit}
