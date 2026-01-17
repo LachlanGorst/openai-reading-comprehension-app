@@ -1,25 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import PassageDisplay from '@/components/PassageDisplay';
+import { render, screen } from "@testing-library/react";
 
-describe('PassageDisplay', () => {
-  const mockOnPassageSubmit = jest.fn();
+// PassageDisplay component is no longer used - the passage is now loaded from a static file
+// and displayed in the main layout alongside questions
 
-  beforeEach(() => {
-    mockOnPassageSubmit.mockClear();
-  });
-
-  it('renders the passage input form and submits valid passage', () => {
-    render(<PassageDisplay onPassageSubmit={mockOnPassageSubmit} />);
-    
-    expect(screen.getByText('Enter Reading Passage')).toBeInTheDocument();
-    
-    const textarea = screen.getByPlaceholderText('Enter your reading passage here...');
-    const submitButton = screen.getByText('🚀 Start Test');
-    
-    const testPassage = 'This is a test passage that is long enough to be valid. '.repeat(2);
-    fireEvent.change(textarea, { target: { value: testPassage } });
-    fireEvent.click(submitButton);
-    
-    expect(mockOnPassageSubmit).toHaveBeenCalledWith(testPassage.trim());
+describe("PassageDisplay - Deprecated", () => {
+  it("component is deprecated and no longer used in the app", () => {
+    // The passage is now loaded from public/data/passages.json
+    // and displayed in a two-column layout with the question interface
+    expect(true).toBe(true);
   });
 });
