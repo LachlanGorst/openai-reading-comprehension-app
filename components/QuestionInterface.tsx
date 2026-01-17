@@ -6,6 +6,7 @@ interface QuestionInterfaceProps {
   questionNumber: number;
   totalQuestions: number;
   question: string;
+  questionType?: string;
   onAnswerSubmit: (answer: string) => void;
 }
 
@@ -14,8 +15,23 @@ export default function QuestionInterface({
   questionNumber,
   totalQuestions,
   question,
+  questionType,
   onAnswerSubmit,
 }: QuestionInterfaceProps) {
+  const getQuestionTypeInfo = () => {
+    switch (questionType) {
+      case 'easy':
+        return { name: 'Quick Win', emoji: '⭐', color: 'bg-green-100 text-green-800' };
+      case 'medium':
+        return { name: 'Think Deep', emoji: '🧠', color: 'bg-blue-100 text-blue-800' };
+      case 'challenge':
+        return { name: 'Super Challenge', emoji: '🚀', color: 'bg-purple-100 text-purple-800' };
+      default:
+        return null;
+    }
+  };
+
+  const typeInfo = getQuestionTypeInfo();
   const [answer, setAnswer] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,9 +69,16 @@ export default function QuestionInterface({
 
       {/* Question display */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Question {questionNumber}
-        </h2>
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Question {questionNumber}
+          </h2>
+          {typeInfo && (
+            <span className={`px-3 py-1 rounded-full text-sm font-medium ${typeInfo.color}`}>
+              {typeInfo.emoji} {typeInfo.name}
+            </span>
+          )}
+        </div>
         <p className="text-lg text-gray-700 leading-relaxed">
           {question}
         </p>
@@ -77,9 +100,9 @@ export default function QuestionInterface({
         
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
         >
-          {questionNumber === totalQuestions ? 'Submit Final Answer' : 'Submit Answer'}
+          {questionNumber === totalQuestions ? '🎯 Submit Final Answer' : '✨ Submit Answer'}
         </button>
       </form>
     </div>

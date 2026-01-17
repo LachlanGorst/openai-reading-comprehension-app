@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate questions using OpenAI
+    // Generate questions with types, ideal answers, and key points
     const openai = getOpenAIClient();
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -38,11 +38,11 @@ export async function POST(request: NextRequest) {
         {
           role: "system",
           content:
-            'You are an expert educator creating reading comprehension questions. Generate exactly 3 comprehension questions based on the provided passage. Return a JSON object with a "questions" array containing exactly 3 question strings. Format: {"questions": ["Question 1?", "Question 2?", "Question 3?"]}',
+            'You are an expert educator creating engaging reading comprehension questions for students. Generate exactly 3 questions with different types: 1 easy literal question, 1 medium inference question, 1 challenging analysis question. For each question, provide the question text, type, ideal answer, and 2-3 key points that show understanding. Return JSON: {"questions": [{"id": 1, "type": "easy"|"medium"|"challenge", "question": "...", "idealAnswer": "...", "keyPoints": ["point1", "point2"]}, ...]}',
         },
         {
           role: "user",
-          content: `Generate 3 reading comprehension questions for this passage:\n\n${passage}`,
+          content: `Generate 3 diverse reading comprehension questions for this passage:\n\n${passage}\n\nMake them engaging and appropriate for students.`,
         },
       ],
       temperature: 0.7,
@@ -54,22 +54,30 @@ export async function POST(request: NextRequest) {
       throw new Error("No response from OpenAI");
     }
 
-    // Parse the response - OpenAI will return JSON with questions array
-    let questions: string[] = [];
+    // Parse the response - OpenAI will return JSON with structured questions
     try {
       const parsed = JSON.parse(responseContent);
-      questions = parsed.questions || [];
+      const questions = parsed.questions || [];
+      
+      // Ensure we have exactly 3 questions
+      if (questions.length !== 3) {
+        throw new Error(`Expected 3 questions, got ${questions.length}`);
+      }
+
+      // Validate structure and add IDs if missing
+      const validatedQuestions = questions.map((q: any, index: number) => ({
+        id: q.id || index + 1,
+        type: q.type || (index === 0 ? 'easy' : index === 1 ? 'medium' : 'challenge'),
+        question: q.question || '',
+        idealAnswer: q.idealAnswer || '',
+        keyPoints: Array.isArray(q.keyPoints) ? q.keyPoints : [],
+      }));
+
+      return NextResponse.json({ questions: validatedQuestions });
     } catch (parseError) {
       console.error("Failed to parse OpenAI response:", parseError);
       throw new Error("Invalid response format from OpenAI");
     }
-
-    // Ensure we have exactly 3 questions
-    if (questions.length !== 3) {
-      throw new Error(`Expected 3 questions, got ${questions.length}`);
-    }
-
-    return NextResponse.json({ questions });
   } catch (error: any) {
     console.error("Error generating questions:", error);
     return NextResponse.json(

@@ -18,7 +18,7 @@ export default function Home() {
   // Application state management
   const [testState, setTestState] = useState<TestState>("passage");
   const [passage, setPassage] = useState<string>("");
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [grade, setGrade] = useState<number | null>(null);
@@ -52,9 +52,10 @@ export default function Home() {
 
   // Handle answer submission for current question
   const handleAnswerSubmit = (answer: string) => {
+    const currentQuestion = questions[currentQuestionIndex];
     const newAnswer: Answer = {
       questionNumber: currentQuestionIndex + 1,
-      question: questions[currentQuestionIndex],
+      question: typeof currentQuestion === 'string' ? currentQuestion : currentQuestion.question,
       answer: answer,
     };
 
@@ -78,6 +79,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           passage,
+          questions: questions, // Send full question objects with key points
           answers: allAnswers,
         }),
       });
@@ -128,8 +130,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-          Reading Comprehension Test
+        <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          📚 Reading Comprehension Adventure
         </h1>
 
         {testState === "passage" && (
@@ -148,7 +150,12 @@ export default function Home() {
               <QuestionInterface
                 questionNumber={currentQuestionIndex + 1}
                 totalQuestions={questions.length}
-                question={questions[currentQuestionIndex]}
+                question={typeof questions[currentQuestionIndex] === 'string' 
+                  ? questions[currentQuestionIndex] 
+                  : questions[currentQuestionIndex].question}
+                questionType={typeof questions[currentQuestionIndex] === 'object' 
+                  ? questions[currentQuestionIndex].type 
+                  : undefined}
                 onAnswerSubmit={handleAnswerSubmit}
               />
             )}

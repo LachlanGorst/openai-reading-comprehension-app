@@ -25,7 +25,7 @@ export default function PassageDisplay({ onPassageSubmit }: PassageDisplayProps)
         Enter Reading Passage
       </h2>
       <p className="text-gray-600 mb-4">
-        Paste or type the reading passage below. The AI will generate 3 comprehension questions based on this text.
+        📖 Paste or type the reading passage below. The AI will generate 3 fun comprehension questions based on this text!
       </p>
       
       <form onSubmit={handleSubmit}>
@@ -43,9 +43,9 @@ export default function PassageDisplay({ onPassageSubmit }: PassageDisplayProps)
           </p>
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-all transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
           >
-            Start Test
+            🚀 Start Test
           </button>
         </div>
       </form>
