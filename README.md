@@ -2,7 +2,18 @@
 
 An AI-powered reading comprehension testing application for school students built with Next.js 14+, TypeScript, Tailwind CSS, and OpenAI API.
 
-Developed in conjunction with - Cursor (Auto Agent Router)
+## Developed in conjunction with - Cursor (Auto Agent Router)
+
+## Author Thoughts
+
+1. Crazy how easy it is to setup API to OpenAI backend and begin to use such insane technology
+2. AI agent code generation has taken a massive leap since just one year ago
+
+## What would be next
+
+1. Question quality from AI
+2. feedback quality from AI
+3. design being gamified to make more fun for students (take ideas from video games)
 
 ## Features
 
