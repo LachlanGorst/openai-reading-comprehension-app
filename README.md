@@ -2,8 +2,6 @@
 
 A next-generation reading comprehension interface built with Next.js and OpenAI, designed to make learning engaging instead of feel like a test.
 
-![Mission Control Dark Cosmic Theme](./screenshot.png)
-
 ## Developed in conjunction with - Cursor (Auto Agent Router)
 
 ## Author Thoughts
@@ -16,6 +14,10 @@ A next-generation reading comprehension interface built with Next.js and OpenAI,
 1. Question quality from AI
 2. feedback quality from AI
 3. design being gamified to make more fun for students (take ideas from video games)
+
+# Theme reference used
+
+![Mission Control Dark Cosmic Theme](./screenshot.png)
 
 ## The Problem
 
