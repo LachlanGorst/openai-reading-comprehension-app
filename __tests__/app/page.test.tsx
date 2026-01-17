@@ -23,7 +23,7 @@ jest.mock('@/components/ResultsPage', () => {
 describe('Home Page', () => {
   it('renders the main heading and initial passage display', () => {
     render(<Home />);
-    expect(screen.getByText('Reading Comprehension Test')).toBeInTheDocument();
+    expect(screen.getByText('📚 Reading Comprehension Adventure')).toBeInTheDocument();
     expect(screen.getByTestId('passage-display')).toBeInTheDocument();
   });
 });

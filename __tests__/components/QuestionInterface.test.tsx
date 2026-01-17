@@ -22,7 +22,7 @@ describe('QuestionInterface', () => {
     expect(screen.getByText('What is the main idea?')).toBeInTheDocument();
     
     const textarea = screen.getByPlaceholderText('Type your answer here...');
-    const submitButton = screen.getByText('Submit Answer');
+    const submitButton = screen.getByText('✨ Submit Answer');
     
     fireEvent.change(textarea, { target: { value: 'My answer' } });
     fireEvent.click(submitButton);

@@ -14,7 +14,7 @@ describe('PassageDisplay', () => {
     expect(screen.getByText('Enter Reading Passage')).toBeInTheDocument();
     
     const textarea = screen.getByPlaceholderText('Enter your reading passage here...');
-    const submitButton = screen.getByText('Start Test');
+    const submitButton = screen.getByText('🚀 Start Test');
     
     const testPassage = 'This is a test passage that is long enough to be valid. '.repeat(2);
     fireEvent.change(textarea, { target: { value: testPassage } });

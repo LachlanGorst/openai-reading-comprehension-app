@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import ResultsPage from '@/components/ResultsPage';
+import '@testing-library/jest-dom';
 
 const mockAnswers = [
   {
@@ -27,7 +28,7 @@ describe('ResultsPage', () => {
   });
 
   it('displays results and resets when button clicked', () => {
-    render(
+    const { container } = render(
       <ResultsPage
         percentage={75}
         totalScore={15}
@@ -40,10 +41,11 @@ describe('ResultsPage', () => {
     );
     
     expect(screen.getByText('75%')).toBeInTheDocument();
-    expect(screen.getByText('You scored 15 out of 20 points.')).toBeInTheDocument();
+    // Check for score text (text is split across elements with spans)
+    expect(container.textContent).toContain('You scored 15 out of 20 points!');
     expect(screen.getByText(/Question 1: What is the main idea?/)).toBeInTheDocument();
     
-    const resetButton = screen.getByText('Take Another Test');
+    const resetButton = screen.getByText('🎮 Take Another Test');
     fireEvent.click(resetButton);
     
     expect(mockOnReset).toHaveBeenCalled();
